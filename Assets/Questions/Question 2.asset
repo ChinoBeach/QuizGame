@@ -13,3 +13,9 @@ MonoBehaviour:
   m_Name: Question 2
   m_EditorClassIdentifier: 
   strQuestion: Where is Wizards of the Coast currently based?
+  strArrayAnswers:
+  - South Carolina
+  - New York
+  - California
+  - Washington
+  intCorrectIndex: 3

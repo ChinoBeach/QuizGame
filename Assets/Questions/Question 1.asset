@@ -13,3 +13,9 @@ MonoBehaviour:
   m_Name: Question 1
   m_EditorClassIdentifier: 
   strQuestion: Who was the orginal publisher of Dungeons and Dragons?
+  strArrayAnswers:
+  - TSR
+  - Paizo Publishing
+  - Wizards of the Coast
+  - BL Publishing
+  intCorrectIndex: 0

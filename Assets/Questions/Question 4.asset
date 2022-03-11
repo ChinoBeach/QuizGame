@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strQuestion: How many offical classes are three in dungeons and dragons 5e, as
     of March 2022?
+  strArrayAnswers:
+  - 12
+  - 7
+  - 13
+  - 5
+  intCorrectIndex: 2
