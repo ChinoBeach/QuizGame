@@ -17,19 +17,56 @@ public class Quiz : MonoBehaviour
     
 
     void Start()
-    {       
+    {
 
+        //display the question
+        GetNextQuestion();
+        
+    }
+
+    //turn on the buttons and then display the next question
+    void GetNextQuestion()
+    {
+        SetButtonState(true);
+        SetDefualtButtonSprite();
+        DisplayQuestion();
+
+    }
+    //display question
+   void DisplayQuestion()
+
+    {
         //display the question
         questionText.text = question.GetQuestion();
 
         //display the answers on the buttons
-        for(int i = 0; i < arrayAnswerButton.Length; i++)
+        for (int i = 0; i < arrayAnswerButton.Length; i++)
         {
             TextMeshProUGUI buttonText = arrayAnswerButton[i].GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = question.GetAnswer(i);
         }
 
-        
+    }
+ 
+    //turn the  buttons on and off
+    void SetButtonState(bool bolState)
+    {
+        for(int i = 0; i < arrayAnswerButton.Length; i ++)
+        {
+            Button button = arrayAnswerButton[i].GetComponent<Button>();
+            button.interactable = bolState;
+        }
+    }
+
+    //change all buttons to the default image
+    void SetDefualtButtonSprite()
+    {
+       for (int i = 0; i < arrayAnswerButton.Length; i++)
+        {
+            Image buttonImage = arrayAnswerButton[i].GetComponent<Image>();
+            buttonImage.sprite = defaultAnswerSprite;
+        }
+
     }
 
     //when a user clicks a button ( selects an answer)
@@ -49,7 +86,6 @@ public class Quiz : MonoBehaviour
             buttonImage = arrayAnswerButton[index].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSprite;
         }
-
         
         //if a wrong answer was selected
         else
@@ -64,9 +100,9 @@ public class Quiz : MonoBehaviour
             buttonImage = arrayAnswerButton[intCorrectAnswerIndex].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSprite;
 
-
-
         } 
+        //make it so you cant change your answer by clicking another button
+        SetButtonState(false);
     }
 
 
