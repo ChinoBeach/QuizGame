@@ -29,11 +29,17 @@ public class Quiz : MonoBehaviour
     [SerializeField] private Image timerImage;
     private Timer timer;
 
+    [Header("Scoring")]
+
+    [SerializeField] TextMeshProUGUI scoreText;
+    ScoreKeeper scoreKeeper;
+
     private void Start()
     {
         //setup timer
 
         timer = FindObjectOfType<Timer>();
+        scoreKeeper = FindObjectOfType<ScoreKeeper>();
 
        
         
@@ -52,8 +58,9 @@ public class Quiz : MonoBehaviour
         else if (!bolHasAnsweredEarly && !timer.bolIsAnsweringQuestion)
         {
             bolHasAnsweredEarly = true;
-            DisplayAnswer(-1);
-            SetButtonState(false);        }
+            DisplayAnswer(-1); //please check this, mmight be an issue
+            SetButtonState(false);        
+        }
     }
 
     //turn on the buttons and then display the next question
@@ -66,6 +73,7 @@ public class Quiz : MonoBehaviour
             SetDefualtButtonSprite();
             GetRandomQuestion();
             DisplayQuestion();
+            scoreKeeper.IncrementQuestionsSeen();
         }
         
     }
@@ -101,10 +109,15 @@ public class Quiz : MonoBehaviour
     {
         //variable for the image of the button
         Image buttonImage;
-
+        Debug.Log(index);
+        Debug.Log(currentQuestion.GetCorrectAnswerIndex());
+        Debug.Log(index == currentQuestion.GetCorrectAnswerIndex());
+        Debug.Log("Temp");
         //if the correct answer was selected
         if (index == currentQuestion.GetCorrectAnswerIndex())
         {
+
+            
             //tell the user they were correct
             questionText.text = "Correct!";
             //change the image of the correct answers button to make it stand out
@@ -158,5 +171,6 @@ public class Quiz : MonoBehaviour
 
         //turn off the timer
         timer.CancelTimer();
+        scoreText.text = "Score: " + scoreKeeper.CalculateScore() + "%";
     }
 }
