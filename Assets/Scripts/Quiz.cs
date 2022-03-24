@@ -1,29 +1,32 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Quiz : MonoBehaviour
 {
     //Variables
     [Header("Questions")]
-    [SerializeField] private TextMeshProUGUI questionText;
 
-    [SerializeField] private QuestionSO question;
+    [SerializeField] private TextMeshProUGUI questionText;
+    [SerializeField] List<QuestionSO> questions = new List<QuestionSO>();
+    QuestionSO currentQuestion;
 
     [Header("Answeres")]
-    [SerializeField] private GameObject[] arrayAnswerButton;
 
+    [SerializeField] private GameObject[] arrayAnswerButton;
     private int intCorrectAnswerIndex;
     private bool bolHasAnsweredEarly;
 
     [Header("Button Colors")]
-    [SerializeField] private Sprite defaultAnswerSprite;
 
+    [SerializeField] private Sprite defaultAnswerSprite;
     [SerializeField] private Sprite correctAnswerSprite;
 
     [Header("Timer")]
-    [SerializeField] private Image timerImage;
 
+    [SerializeField] private Image timerImage;
     private Timer timer;
 
     private void Start()
@@ -32,8 +35,8 @@ public class Quiz : MonoBehaviour
 
         timer = FindObjectOfType<Timer>();
 
-        //display the question
-        GetNextQuestion();
+       
+        
     }
 
     private void Update()
@@ -56,9 +59,27 @@ public class Quiz : MonoBehaviour
     //turn on the buttons and then display the next question
     private void GetNextQuestion()
     {
-        SetButtonState(true);
-        SetDefualtButtonSprite();
-        DisplayQuestion();
+
+        if(questions.Count > 0)
+        { 
+            SetButtonState(true);
+            SetDefualtButtonSprite();
+            GetRandomQuestion();
+            DisplayQuestion();
+        }
+        
+    }
+
+    void GetRandomQuestion()
+    {
+        int index = Random.Range(0, questions.Count);
+        currentQuestion = questions[index];
+        
+        if(questions.Contains(currentQuestion))
+        {
+            questions.Remove(currentQuestion); 
+        }
+        
     }
 
     //display question
@@ -66,13 +87,13 @@ public class Quiz : MonoBehaviour
 
     {
         //display the question
-        questionText.text = question.GetQuestion();
+        questionText.text = currentQuestion.GetQuestion();
 
         //display the answers on the buttons
         for (int i = 0; i < arrayAnswerButton.Length; i++)
         {
             TextMeshProUGUI buttonText = arrayAnswerButton[i].GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = question.GetAnswer(i);
+            buttonText.text = currentQuestion.GetAnswer(i);
         }
     }
 
@@ -82,7 +103,7 @@ public class Quiz : MonoBehaviour
         Image buttonImage;
 
         //if the correct answer was selected
-        if (index == question.GetCorrectAnswerIndex())
+        if (index == currentQuestion.GetCorrectAnswerIndex())
         {
             //tell the user they were correct
             questionText.text = "Correct!";
@@ -96,8 +117,8 @@ public class Quiz : MonoBehaviour
         else
         {
             //find the correct answer and display it
-            intCorrectAnswerIndex = question.GetCorrectAnswerIndex();
-            string strCorrectAnswer = question.GetAnswer(intCorrectAnswerIndex);
+            intCorrectAnswerIndex = currentQuestion.GetCorrectAnswerIndex();
+            string strCorrectAnswer = currentQuestion.GetAnswer(intCorrectAnswerIndex);
             questionText.text = "Sorry, the correct answer was;\n" + strCorrectAnswer;
 
             //change the sprite
