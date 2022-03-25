@@ -48,13 +48,17 @@ public class Quiz : MonoBehaviour
     private void Update()
     {
         timerImage.fillAmount = timer.fltFillFraction;
-
+        // I think whats happening here is that bolHasAnsweredEarly is set to true, and bolIsAnsweringQuestion is set to true as well
+        // Once you click an answer, it will run this conditional loop
         if (timer.bolLoadNextQuestion)
         {
+            // bolHasAnsweredEarly gets set to false, satisfying one condition of the else.
             bolHasAnsweredEarly = false;
             GetNextQuestion();
+            // And when the timer stops, it sets bolIsAnsweringQuestion to false as well.
             timer.bolLoadNextQuestion = false;
         }
+        // The next frame rolls around, sees that these two variables are set to false, and runs the else if, ruining the logic permentantly it seems.
         else if (!bolHasAnsweredEarly && !timer.bolIsAnsweringQuestion)
         {
             bolHasAnsweredEarly = true;
