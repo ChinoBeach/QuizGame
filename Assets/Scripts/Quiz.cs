@@ -169,6 +169,7 @@ public class Quiz : MonoBehaviour
     //when a user clicks a button ( selects an answer)
     public void OnAnswerSelected(int index)
     {
+        bolHasAnsweredEarly = true;
         DisplayAnswer(index);
         
         //make it so you cant change your answer by clicking another button
