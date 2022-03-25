@@ -128,6 +128,7 @@ public class Quiz : MonoBehaviour
 
             buttonImage = arrayAnswerButton[index].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSprite;
+            scoreKeeper.IncrementCorrectAnswers();
         }
 
         //if a wrong answer was selected
@@ -174,6 +175,7 @@ public class Quiz : MonoBehaviour
         SetButtonState(false);
 
         //turn off the timer
+        // When this timer is turned off, bolIsAnsweringQuestion is set to false.
         timer.CancelTimer();
         scoreText.text = "Score: " + scoreKeeper.CalculateScore() + "%";
     }
