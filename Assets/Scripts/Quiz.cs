@@ -48,7 +48,6 @@ public class Quiz : MonoBehaviour
     private void Update()
     {
         timerImage.fillAmount = timer.fltFillFraction;
-
         if (timer.bolLoadNextQuestion)
         {
             bolHasAnsweredEarly = false;
@@ -58,7 +57,7 @@ public class Quiz : MonoBehaviour
         else if (!bolHasAnsweredEarly && !timer.bolIsAnsweringQuestion)
         {
             bolHasAnsweredEarly = true;
-            DisplayAnswer(-1); //please check this, mmight be an issue
+            DisplayAnswer(-1); 
             SetButtonState(false);        
         }
     }
@@ -124,6 +123,7 @@ public class Quiz : MonoBehaviour
 
             buttonImage = arrayAnswerButton[index].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSprite;
+            scoreKeeper.IncrementCorrectAnswers();
         }
 
         //if a wrong answer was selected
@@ -164,6 +164,7 @@ public class Quiz : MonoBehaviour
     //when a user clicks a button ( selects an answer)
     public void OnAnswerSelected(int index)
     {
+        bolHasAnsweredEarly = true;
         DisplayAnswer(index);
         
         //make it so you cant change your answer by clicking another button
