@@ -57,8 +57,7 @@ public class Quiz : MonoBehaviour
         }
         else if (!bolHasAnsweredEarly && !timer.bolIsAnsweringQuestion)
         {
-            bolHasAnsweredEarly = true;
-            DisplayAnswer(-1); //please check this, mmight be an issue
+            DisplayAnswer(-1); 
             SetButtonState(false);        
         }
     }
@@ -109,10 +108,7 @@ public class Quiz : MonoBehaviour
     {
         //variable for the image of the button
         Image buttonImage;
-        Debug.Log(index);
-        Debug.Log(currentQuestion.GetCorrectAnswerIndex());
-        Debug.Log(index == currentQuestion.GetCorrectAnswerIndex());
-        Debug.Log("Temp");
+
         //if the correct answer was selected
         if (index == currentQuestion.GetCorrectAnswerIndex())
         {
@@ -124,6 +120,7 @@ public class Quiz : MonoBehaviour
 
             buttonImage = arrayAnswerButton[index].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSprite;
+            scoreKeeper.IncrementCorrectAnswers();
         }
 
         //if a wrong answer was selected
@@ -164,6 +161,7 @@ public class Quiz : MonoBehaviour
     //when a user clicks a button ( selects an answer)
     public void OnAnswerSelected(int index)
     {
+        bolHasAnsweredEarly = true;
         DisplayAnswer(index);
         
         //make it so you cant change your answer by clicking another button
